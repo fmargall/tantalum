@@ -3,7 +3,6 @@ html, body {
     width: 100%;
     height: 100%;
     background: black;
-    font-family: sans-serif;
 }
 
 #app {
@@ -12,20 +11,4 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-#render-area {
-    width: 820px;
-    height: 461px;
-    background: #222;
-    border: 2px solid #666;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#loading-text {
-    color: #ccc;
-    font-size: 20px;
-    letter-spacing: 1px;
 }
