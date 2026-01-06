@@ -366,8 +366,8 @@
             this.angularSpread = [this.emitterAngle, 0.0];
             break;
         case Renderer.SPREAD_AREA:
-            this.emitterPower = 0.1;
-            this.spatialSpread = 0.4;
+            this.emitterPower = 0.025;
+            this.spatialSpread = 0.015;
             this.angularSpread = [this.emitterAngle, Math.PI];
             break;
         }

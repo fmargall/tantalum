@@ -671,8 +671,8 @@ var Shaders = {
         '#include "csg-intersect"\n\n'                                                     +
 
         'void intersect(Ray ray, inout Intersection isect) {\n'                            +
-        '    bboxIntersect(ray, vec2(0.0), vec2(1.78, 1.0), 0.0, isect);\n'                +
-        '    biconvexLensIntersect   (ray, vec2(-0.4, 0.0), 0.508, 0.144, 0.593, 0.593, 1' +
+        '    //bboxIntersect(ray, vec2(0.0), vec2(1.78, 1.0), 0.0, isect);\n'              +
+        '    biconvexLensIntersect   (ray, vec2(-0.4, 0.0), 0.254, 0.072, 0.593, 0.593, 1' +
                                                                          '.0, isect);\n'   +
         '}\n\n'                                                                            +
 
