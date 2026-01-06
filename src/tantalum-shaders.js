@@ -663,6 +663,33 @@ var Shaders = {
         '    }\n'                                                                          +
         '}\n',
 
+    'scene8':
+        '#include "trace-frag"\n\n'                                                        +
+
+        '#include "bsdf"\n'                                                                +
+        '#include "intersect"\n'                                                           +
+        '#include "csg-intersect"\n\n'                                                     +
+
+        'void intersect(Ray ray, inout Intersection isect) {\n'                            +
+        '    bboxIntersect(ray, vec2(0.0), vec2(1.78, 1.0), 0.0, isect);\n'                +
+        '    biconvexLensIntersect   (ray, vec2(-0.4, 0.0), 0.508, 0.144, 0.593, 0.593, 1' +
+                                                                         '.0, isect);\n'   +
+        '}\n\n'                                                                            +
+
+        'vec2 sample(inout vec4 state, Intersection isect, float lambda, vec2 wiLocal, in' +
+                                                              'out vec3 throughput) {\n'   +
+        '    if (isect.mat == 1.0) {\n'                                                    +
+        '        //float ior = sellmeierIor(vec3(1.6215, 0.2563, 1.6445), vec3(0.0122, 0.' +
+                                                       '0596, 147.4688), lambda)/1.4;\n'   +
+        '        float ior = sellmeierIor(vec3(1.03961212, 0.231792344, 1.01046945), vec3' +
+                                 '(0.00600069867, 0.0200179144, 103.560653), lambda);\n'   +
+        '        return sampleDielectric(state, wiLocal, ior);\n'                          +
+        '    } else {\n'                                                                   +
+        '        throughput *= vec3(0.5);\n'                                               +
+        '        return sampleDiffuse(state, wiLocal);\n'                                  +
+        '    }\n'                                                                          +
+        '}\n',
+
     'trace-frag':
         '#extension GL_EXT_draw_buffers : require\n'                                        +
         '#include "preamble"\n'                                                             +

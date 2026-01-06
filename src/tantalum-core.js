@@ -57,6 +57,7 @@
         this.emissionSpectrumType = Renderer.SPECTRUM_WHITE;
         this.emitterTemperature = 5000.0;
         this.emitterGas = 0;
+        this.emitterLed = 0;
         this.currentScene = 0;
         this.needsReset = true;
         
@@ -110,6 +111,7 @@
     Renderer.SPECTRUM_WHITE         = 0;
     Renderer.SPECTRUM_INCANDESCENT  = 1;
     Renderer.SPECTRUM_GAS_DISCHARGE = 2;
+    Renderer.SPECTRUM_LED           = 3;
 
     Renderer.SPECTRUM_SAMPLES       = 256;
     Renderer.ICDF_SAMPLES           = 1024;
@@ -141,6 +143,12 @@
             this.computeEmissionSpectrum();
     }
 
+    Renderer.prototype.setEmitterLed = function(ledId) {
+        this.emitterLed = ledId;
+        if (this.emissionSpectrumType == Renderer.SPECTRUM_LED)
+            this.computeEmissionSpectrum();
+    }
+
     Renderer.prototype.computeEmissionSpectrum = function() {
         if (!this.emissionSpectrum)
             this.emissionSpectrum = new Float32Array(Renderer.SPECTRUM_SAMPLES);
@@ -166,6 +174,21 @@
         case Renderer.SPECTRUM_GAS_DISCHARGE:
             var wavelengths = GasDischargeLines[this.emitterGas].wavelengths;
             var strengths = GasDischargeLines[this.emitterGas].strengths;
+            
+            for (var i = 0; i < Renderer.SPECTRUM_SAMPLES; ++i)
+                this.emissionSpectrum[i] = 0.0;
+            
+            for (var i = 0; i < wavelengths.length; ++i) {
+                var idx = Math.floor((wavelengths[i] - LAMBDA_MIN)/(LAMBDA_MAX - LAMBDA_MIN)*Renderer.SPECTRUM_SAMPLES);
+                if (idx < 0 || idx >= Renderer.SPECTRUM_SAMPLES)
+                    continue;
+                
+                this.emissionSpectrum[idx] += strengths[i];
+            }
+            break;
+        case Renderer.SPECTRUM_LED:
+            var wavelengths = LedLines[this.emitterLed].wavelengths;
+            var strengths = LedLines[this.emitterLed].strengths;
             
             for (var i = 0; i < Renderer.SPECTRUM_SAMPLES; ++i)
                 this.emissionSpectrum[i] = 0.0;

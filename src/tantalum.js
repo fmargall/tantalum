@@ -120,6 +120,7 @@ Tantalum.prototype.setupUI = function() {
         "resolutions": [[820, 461], [1024, 576], [1280, 720], [1600, 900], [1920, 1080], [4096, 2160]],
         "scenes": [
             {'shader': 'scene1', 'name': 'Lenses',               'posA': [0.5,  0.5],      'posB': [0.5, 0.5],        'spread': tcore.Renderer.SPREAD_POINT},
+            {'shader': 'scene8', 'name': 'SOLIS',                'posA': [0.0,  0.5],      'posB': [0.5, 0.5],        'spread': tcore.Renderer.SPREAD_AREA},
             {'shader': 'scene6', 'name': 'Spheres',              'posA': map(-1.59, 0.65), 'posB': map(0.65, -0.75),  'spread': tcore.Renderer.SPREAD_BEAM},
             {'shader': 'scene7', 'name': 'Playground',           'posA': [0.3, 0.52],      'posB': [0.3, 0.52],       'spread': tcore.Renderer.SPREAD_POINT},
             {'shader': 'scene4', 'name': 'Prism',                'posA': [0.1,  0.65],     'posB': [0.4, 0.4],        'spread': tcore.Renderer.SPREAD_LASER},
@@ -197,16 +198,28 @@ Tantalum.prototype.setupUI = function() {
         renderer.setEmitterGas(gasId);
         spectrumRenderer.setSpectrum(renderer.getEmissionSpectrum());
     });
+
+    
+    var ledOptions = [];
+    for (var i = 0; i < LedLines.length; ++i)
+        ledOptions.push(LedLines[i].name);
+    var ledGrid = new tui.ButtonGrid("led-selection", 4, ledOptions, function(ledId) {
+        renderer.setEmitterLed(ledId);
+        spectrumRenderer.setSpectrum(renderer.getEmissionSpectrum());
+    });
+    
     
     temperatureSlider.show(false);
     gasGrid.show(false);
+    ledGrid.show(false);
     
-    new tui.ButtonGroup("emission-selector", false, ["White", "Incandescent", "Gas Discharge"], function(type) {
+    new tui.ButtonGroup("emission-selector", false, ["White", "Incandescent", "Gas Discharge", "LED"], function(type) {
         renderer.setEmissionSpectrumType(type);
         spectrumRenderer.setSmooth(type != tcore.Renderer.SPECTRUM_GAS_DISCHARGE);
         spectrumRenderer.setSpectrum(renderer.getEmissionSpectrum());
         temperatureSlider.show(type == tcore.Renderer.SPECTRUM_INCANDESCENT);
         gasGrid.show(type == tcore.Renderer.SPECTRUM_GAS_DISCHARGE);
+        ledGrid.show(type == tcore.Renderer.SPECTRUM_LED);
     });
     
     this.saveImageData = false;
