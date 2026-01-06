@@ -1,0 +1,16 @@
+#version 300 es
+precision highp float;
+
+in vec2 vUV;
+out vec4 FragColor;
+
+uniform float uTime;
+
+float rand(vec2 p) {
+    return fract(sin(dot(p, vec2(12.9898,78.233))) * 43758.5453);
+}
+
+void main() {
+    float n = rand(vUV * 1000.0 + uTime);
+    FragColor = vec4(vec3(n), 1.0);
+}

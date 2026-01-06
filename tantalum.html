@@ -3,16 +3,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tantalum - 2D Light Transport</title>
+    <title>Light transport from scratch</title>
 
     <link rel="stylesheet" href="ui.css">
 </head>
 
 <body>
     <div id="app">
-        <div id="render-area">
-            <div id="loading-text">Loading...</div>
-        </div>
+        <canvas id="glcanvas" width="820" height="461"></canvas>
     </div>
+    <script src="src/shaders.js"></script>
+    <script src="src/gl.js"></script>
+    <script src="src/main.js"></script>
 </body>
 </html>
